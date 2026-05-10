@@ -1,7 +1,7 @@
 """
-STEP 4: LOAD CLEANED DATA INTO POSTGRESQL (batch ETL)
+LOAD CLEANED DATA INTO POSTGRESQL (batch ETL)
 
-Reads `data/cleaned_unified_parking.csv` from Step 2, upserts dimensions, then
+Reads `data/cleaned_unified_parking.csv` from cleaning/preprocessing, upserts dimensions, then
 batch-inserts `parking_fact` rows.
 
 Prerequisites:
@@ -15,7 +15,7 @@ Environment:
     `append`: keep existing facts (may duplicate if same events reloaded).
 
 Run from project root:
-  python src/step4_etl_load.py
+  python src/etl_load.py
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ import pandas as pd
 import psycopg2
 from psycopg2.extras import execute_values
 
-from step1_data_ingestion import PROJECT_ROOT
+from data_ingestion import PROJECT_ROOT
 
 DATA_DIR = PROJECT_ROOT / "data"
 CLEAN_CSV = DATA_DIR / "cleaned_unified_parking.csv"
@@ -192,7 +192,7 @@ def insert_facts_batch(cur, fact_rows: list[tuple]) -> None:
 def main() -> None:
     if not CLEAN_CSV.exists():
         raise FileNotFoundError(
-            f"Missing {CLEAN_CSV}. Run step2_cleaning_preprocessing.py first."
+            f"Missing {CLEAN_CSV}. Run python src/cleaning_preprocessing.py first."
         )
 
     df = pd.read_csv(CLEAN_CSV, parse_dates=["ts_start", "ts_end"])

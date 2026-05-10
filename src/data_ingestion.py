@@ -1,5 +1,5 @@
 """
-STEP 1: API DATA INGESTION — Multi-City Parking Demand Analysis
+API DATA INGESTION — Multi-City Parking Demand Analysis
 
 Fetches real records from open-data APIs with pagination, retry handling,
 light schema alignment, and local raw persistence for downstream ETL.
@@ -21,7 +21,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 
-# Kept for downstream compatibility (step2 imports these constants/functions).
+# Kept for downstream compatibility (cleaning_preprocessing imports these constants/functions).
 CHICAGO_CSV = DATA_DIR / "chicago_parking_meters.csv"
 NYC_CSV = DATA_DIR / "nyc_parking.csv"
 CHICAGO_FALLBACK = DATA_DIR / "sample_chicago_parking.csv"
@@ -52,7 +52,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
 )
-LOGGER = logging.getLogger("step1_data_ingestion")
+LOGGER = logging.getLogger("data_ingestion")
 
 
 def _resolve_path(primary: Path, fallback: Path) -> Path:
@@ -154,7 +154,7 @@ def _first_reachable_url(url_candidates: list[str]) -> str | None:
 def fetch_chicago_data(total_rows: int | None = TOTAL_ROWS, chunk_size: int = CHUNK_SIZE) -> pd.DataFrame:
     """
     Fetch California (SF) parking meter transactions and map to the existing
-    Chicago-like schema expected by downstream Step 2:
+    Chicago-like schema expected by downstream cleaning/preprocessing:
       transmission_datetime -> TRANSACTION_ID
       post_id               -> METER_ID / POST_ID
       session_start_dt      -> TRANSACTION_START
@@ -293,7 +293,7 @@ def main() -> None:
 
     inspect_dataframe("California API raw", chicago_df)
     inspect_dataframe("NYC API raw", nyc_df)
-    LOGGER.info("Step 1 complete: API ingestion + raw persistence done.")
+    LOGGER.info("data_ingestion complete: API ingestion + raw persistence done.")
 
 
 if __name__ == "__main__":

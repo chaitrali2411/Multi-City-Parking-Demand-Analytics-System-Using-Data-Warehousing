@@ -1,5 +1,5 @@
 """
-STEP 2: DATA CLEANING & PREPROCESSING
+DATA CLEANING & PREPROCESSING
 
 Builds a unified cleaned dataset from:
 - data/chicago_parking_meters.csv

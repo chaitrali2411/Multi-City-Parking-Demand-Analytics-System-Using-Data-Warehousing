@@ -1,5 +1,16 @@
+# Parking analytics pipeline — Python dependencies
+# Install: pip install -r requirements.txt
+# Recommended: Python 3.10 or newer (typing features used in src/).
+
+# Data ingestion, cleaning, ETL table preparation
 pandas>=2.0.0
+
+# PostgreSQL connectivity for batch load (src/etl_load.py)
 psycopg2-binary>=2.9.9
+
+# Static charts for dashboards (src/visual_dashboards.py)
 matplotlib>=3.7.0
 seaborn>=0.13.0
+
+# Interactive HTML charts (src/visual_dashboards.py)
 plotly>=5.18.0
